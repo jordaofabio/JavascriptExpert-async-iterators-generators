@@ -65,5 +65,40 @@ const actor = {
     toString: 'Queen: Xuxa da Silva'
 }
 
-// não tem restricao de nome de chave
 myMap.set(actor)
+
+// não tem restricao de nome de chave
+assert.ok(myMap.has(actor))
+assert.throws(() => myMap.get(actor).toString, TypeError)
+
+
+
+const r10 = 'Ronaldinho'
+
+myMap.set(r10, {
+    nome: 'Bruxo',
+    toString: () => 'Ronaldinho Gaúcho'
+})
+assert.deepStrictEqual(myMap.get(r10).toString(), 'Ronaldinho Gaúcho');
+
+myMap.clear();
+assert.deepStrictEqual([...myMap], [])
+
+
+// --- WeakMap
+
+// Pode ser coletado apoós perder as regerências
+// usado em casos beeemm específicos
+
+// tem a maioria dos benefícios do Map
+// MASS: não é iterável
+// mais leve e previne leak de memória, pq depois que as instâncias saem da memória tudo é limpo
+
+const weakMap = new WeakMap();
+const hero = { name: 'Flash' }
+
+weakMap.set(hero, 'The faster man alive!')
+weakMap.get(hero)
+assert.deepStrictEqual(weakMap.get(hero), 'The faster man alive!')
+weakMap.delete(hero)
+assert.deepStrictEqual(weakMap.has(hero), false)
